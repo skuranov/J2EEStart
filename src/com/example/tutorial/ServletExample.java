@@ -11,18 +11,18 @@ import java.io.IOException;
  */
 public class ServletExample extends HttpServlet {
 
-    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
-    }
-
-    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        response.getWriter().println("Hello Java");
-
-    }
 
     @Override
     protected void service(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        resp.getWriter().println("Hello Java");
-        //super.service(req, resp);
+        if (req.getParameter("firstname")==null||req.getParameter("lastname")==null){
+            getServletContext().getRequestDispatcher("/index.jsp").forward(req,resp);
+        }
+        else {
+            String firstName = req.getParameter("firstname");
+            String lastName = req.getParameter("lastname");
+            req.setAttribute("firstname",firstName);
+            req.setAttribute("lastname",lastName);
+            getServletContext().getRequestDispatcher("/output.jsp").forward(req,resp);}
     }
 }
